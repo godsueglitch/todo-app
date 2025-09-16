@@ -1,61 +1,87 @@
-const todoInput = document.getElementById("todo-input");
-const todoList = document.getElementById("todo-list");
+// Theme Toggle
+const themeBtn = document.getElementById("theme-toggle");
+themeBtn.addEventListener("click", () => {
+  document.body.classList.toggle("dark-mode");
+  themeBtn.textContent = document.body.classList.contains("dark-mode")
+    ? "☀️ Light Mode"
+    : "🌙 Dark Mode";
 
-let todos = JSON.parse(localStorage.getItem("todos")) || [];
+  localStorage.setItem("theme", document.body.classList.contains("dark-mode") ? "dark" : "light");
+});
 
-// Render todos on page load
-window.onload = () => {
-  renderTodos();
-};
-
-// Add a new todo
-function addTodo() {
-  const text = todoInput.value.trim();
-  if (text === "") return;
-
-  const todo = { id: Date.now(), text, done: false };
-  todos.push(todo);
-  saveTodos();
-  renderTodos();
-
-  todoInput.value = "";
+if (localStorage.getItem("theme") === "dark") {
+  document.body.classList.add("dark-mode");
+  themeBtn.textContent = "☀️ Light Mode";
 }
 
-// Toggle done state
-function toggleDone(id) {
-  todos = todos.map(todo =>
-    todo.id === id ? { ...todo, done: !todo.done } : todo
-  );
-  saveTodos();
-  renderTodos();
+// Date Display
+const dateElement = document.getElementById("current-date");
+const today = new Date();
+dateElement.textContent = today.toDateString();
+
+// Task handling
+const taskInput = document.getElementById("task-input");
+const addTaskBtn = document.getElementById("add-task");
+const clearTasksBtn = document.getElementById("clear-tasks");
+const searchInput = document.getElementById("search");
+const taskList = document.getElementById("task-list");
+
+let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+function renderTasks(filter = "") {
+  taskList.innerHTML = "";
+  tasks
+    .filter(task => task.text.toLowerCase().includes(filter.toLowerCase()))
+    .forEach((task, index) => {
+      const li = document.createElement("li");
+      li.className = "task" + (task.completed ? " completed" : "");
+
+      li.innerHTML = `
+        <input type="checkbox" ${task.completed ? "checked" : ""} onclick="toggleTask(${index})">
+        <span>${task.text}</span>
+        <small>${task.date}</small>
+        <button onclick="deleteTask(${index})">❌</button>
+      `;
+
+      taskList.appendChild(li);
+    });
+  localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
-// Delete a todo
-function deleteTodo(id) {
-  todos = todos.filter(todo => todo.id !== id);
-  saveTodos();
-  renderTodos();
+function addTask() {
+  if (taskInput.value.trim() === "") return;
+
+  const task = {
+    text: taskInput.value,
+    completed: false,
+    date: new Date().toLocaleString()
+  };
+
+  tasks.push(task);
+  taskInput.value = "";
+  renderTasks();
 }
 
-// Save todos to localStorage
-function saveTodos() {
-  localStorage.setItem("todos", JSON.stringify(todos));
+function toggleTask(index) {
+  tasks[index].completed = !tasks[index].completed;
+  renderTasks(searchInput.value);
 }
 
-// Render the todo list
-function renderTodos() {
-  todoList.innerHTML = "";
-  todos.forEach(todo => {
-    const li = document.createElement("li");
-    li.className = "flex justify-between items-center bg-gray-50 px-3 py-2 rounded shadow-sm";
-
-    li.innerHTML = `
-      <span onclick="toggleDone(${todo.id})" class="cursor-pointer ${todo.done ? 'line-through text-gray-400' : ''}">
-        ${todo.text}
-      </span>
-      <button onclick="deleteTodo(${todo.id})" class="text-red-500 hover:text-red-700">✕</button>
-    `;
-
-    todoList.appendChild(li);
-  });
+function deleteTask(index) {
+  tasks.splice(index, 1);
+  renderTasks(searchInput.value);
 }
+
+function clearTasks() {
+  if (confirm("Are you sure you want to clear all tasks?")) {
+    tasks = [];
+    renderTasks();
+  }
+}
+
+addTaskBtn.addEventListener("click", addTask);
+clearTasksBtn.addEventListener("click", clearTasks);
+searchInput.addEventListener("input", () => renderTasks(searchInput.value));
+
+// First render
+renderTasks();
