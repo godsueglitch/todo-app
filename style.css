@@ -1,76 +1,93 @@
+/* General */
 body {
+  background: #f9f9f9;
+  color: #222;
+  transition: background 0.3s, color 0.3s;
   font-family: Arial, sans-serif;
-  background: #f3f4f6;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
   margin: 0;
-}
-
-.container {
-  background: white;
   padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  width: 350px;
 }
 
-h1 {
-  text-align: center;
-  margin-bottom: 20px;
+/* Dark Mode */
+body.dark-mode {
+  background: #121212;
+  color: #fff;
 }
 
-input {
-  flex: 1;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 6px 0 0 6px;
-  outline: none;
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
 }
 
+/* Buttons */
 button {
-  background: #2563eb;
-  color: white;
+  padding: 6px 12px;
   border: none;
-  padding: 10px 16px;
-  border-radius: 0 6px 6px 0;
+  border-radius: 6px;
   cursor: pointer;
+  background: #007bff;
+  color: #fff;
+  margin: 5px;
 }
 
 button:hover {
-  background: #1d4ed8;
+  background: #0056b3;
 }
 
-ul {
+button.danger {
+  background: #e63946;
+}
+
+button.danger:hover {
+  background: #b02a37;
+}
+
+/* Inputs */
+input[type="text"] {
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 200px;
+  margin: 5px;
+}
+
+#search {
+  display: block;
+  margin-top: 10px;
+  width: 100%;
+}
+
+/* Task List */
+#task-list {
   list-style: none;
   padding: 0;
-  margin-top: 15px;
+  margin-top: 20px;
 }
 
-li {
+.task {
   display: flex;
-  justify-content: space-between;
-  background: #f9fafb;
-  padding: 8px 12px;
-  border-radius: 6px;
-  margin-bottom: 8px;
   align-items: center;
+  justify-content: space-between;
+  background: #eee;
+  padding: 8px;
+  margin-bottom: 6px;
+  border-radius: 6px;
 }
 
-li span {
-  cursor: pointer;
+body.dark-mode .task {
+  background: #1e1e1e;
 }
 
-li span.done {
+.task.completed span {
   text-decoration: line-through;
   color: gray;
+  opacity: 0.7;
 }
 
-li button {
-  background: transparent;
-  color: red;
-  border: none;
-  font-size: 16px;
-  cursor: pointer;
+.task small {
+  font-size: 12px;
+  color: #666;
 }
