@@ -3,18 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Todo App</title>
+  <title>To-Do App</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <h1>Todo App </h1>
-    <div style="display: flex; margin-bottom: 10px;">
-      <input id="todo-input" type="text" placeholder="Add a new task...">
-      <button onclick="addTodo()">Add</button>
-    </div>
-    <ul id="todo-list"></ul>
+  <div class="header">
+    <h1>My To-Do App</h1>
+    <button id="theme-toggle">🌙 Dark Mode</button>
   </div>
+
+  <p id="current-date"></p>
+
+  <div class="todo-container">
+    <input type="text" id="task-input" placeholder="Enter a new task">
+    <button id="add-task">Add Task</button>
+    <button id="clear-tasks" class="danger">Clear All</button>
+    <input type="text" id="search" placeholder="Search tasks...">
+    <ul id="task-list"></ul>
+  </div>
+
   <script src="script.js"></script>
 </body>
 </html>
