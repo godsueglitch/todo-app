@@ -1,49 +1,61 @@
-// Select elements
-const taskInput = document.getElementById("task-input");
-const addBtn = document.getElementById("add-btn");
-const taskList = document.getElementById("task-list");
+const todoInput = document.getElementById("todo-input");
+const todoList = document.getElementById("todo-list");
 
-// Add task when button is clicked
-addBtn.addEventListener("click", () => {
-  addTask();
-});
+let todos = JSON.parse(localStorage.getItem("todos")) || [];
 
-// Also add task when pressing Enter
-taskInput.addEventListener("keypress", (e) => {
-  if (e.key === "Enter") {
-    addTask();
-  }
-});
+// Render todos on page load
+window.onload = () => {
+  renderTodos();
+};
 
-// Function to add a task
-function addTask() {
-  const taskText = taskInput.value.trim();
+// Add a new todo
+function addTodo() {
+  const text = todoInput.value.trim();
+  if (text === "") return;
 
-  if (taskText === "") {
-    alert("Please enter a task!");
-    return;
-  }
+  const todo = { id: Date.now(), text, done: false };
+  todos.push(todo);
+  saveTodos();
+  renderTodos();
 
-  // Create list item
-  const li = document.createElement("li");
-  li.textContent = taskText;
+  todoInput.value = "";
+}
 
-  // Create delete button
-  const deleteBtn = document.createElement("button");
-  deleteBtn.textContent = "Delete";
-  deleteBtn.className = "delete-btn";
+// Toggle done state
+function toggleDone(id) {
+  todos = todos.map(todo =>
+    todo.id === id ? { ...todo, done: !todo.done } : todo
+  );
+  saveTodos();
+  renderTodos();
+}
 
-  // When delete is clicked → remove the task
-  deleteBtn.addEventListener("click", () => {
-    li.remove();
+// Delete a todo
+function deleteTodo(id) {
+  todos = todos.filter(todo => todo.id !== id);
+  saveTodos();
+  renderTodos();
+}
+
+// Save todos to localStorage
+function saveTodos() {
+  localStorage.setItem("todos", JSON.stringify(todos));
+}
+
+// Render the todo list
+function renderTodos() {
+  todoList.innerHTML = "";
+  todos.forEach(todo => {
+    const li = document.createElement("li");
+    li.className = "flex justify-between items-center bg-gray-50 px-3 py-2 rounded shadow-sm";
+
+    li.innerHTML = `
+      <span onclick="toggleDone(${todo.id})" class="cursor-pointer ${todo.done ? 'line-through text-gray-400' : ''}">
+        ${todo.text}
+      </span>
+      <button onclick="deleteTodo(${todo.id})" class="text-red-500 hover:text-red-700">✕</button>
+    `;
+
+    todoList.appendChild(li);
   });
-
-  // Append delete button to li
-  li.appendChild(deleteBtn);
-
-  // Add li to task list
-  taskList.appendChild(li);
-
-  // Clear input
-  taskInput.value = "";
 }

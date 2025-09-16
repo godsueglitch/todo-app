@@ -1,95 +1,76 @@
-/* Reset some defaults */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: Arial, sans-serif;
-}
-
 body {
-  background: #f4f6f8;
-  color: #333;
+  font-family: Arial, sans-serif;
+  background: #f3f4f6;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   min-height: 100vh;
-  padding: 40px;
+  margin: 0;
 }
 
-.app {
-  background: #fff;
-  padding: 20px 30px;
+.container {
+  background: white;
+  padding: 20px;
   border-radius: 12px;
-  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-  width: 400px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 350px;
 }
 
-.app h1 {
+h1 {
   text-align: center;
   margin-bottom: 20px;
-  color: #222;
 }
 
-.input-container {
-  display: flex;
-  margin-bottom: 20px;
-}
-
-#task-input {
+input {
   flex: 1;
   padding: 10px;
   border: 1px solid #ccc;
-  border-radius: 8px 0 0 8px;
+  border-radius: 6px 0 0 6px;
   outline: none;
-  font-size: 16px;
 }
 
-#add-btn {
-  background: #007bff;
+button {
+  background: #2563eb;
   color: white;
   border: none;
-  padding: 0 20px;
-  border-radius: 0 8px 8px 0;
+  padding: 10px 16px;
+  border-radius: 0 6px 6px 0;
   cursor: pointer;
-  font-size: 16px;
-  transition: 0.2s;
 }
 
-#add-btn:hover {
-  background: #0056b3;
+button:hover {
+  background: #1d4ed8;
 }
 
-#task-list {
+ul {
   list-style: none;
+  padding: 0;
+  margin-top: 15px;
 }
 
-#task-list li {
-  background: #f9f9f9;
-  padding: 12px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  margin-bottom: 10px;
+li {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  transition: 0.2s;
-}
-
-#task-list li:hover {
-  background: #f1f1f1;
-}
-
-.delete-btn {
-  background: crimson;
-  color: white;
-  border: none;
-  padding: 6px 12px;
+  background: #f9fafb;
+  padding: 8px 12px;
   border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: 0.2s;
+  margin-bottom: 8px;
+  align-items: center;
 }
 
-.delete-btn:hover {
-  background: darkred;
+li span {
+  cursor: pointer;
+}
+
+li span.done {
+  text-decoration: line-through;
+  color: gray;
+}
+
+li button {
+  background: transparent;
+  color: red;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
 }
